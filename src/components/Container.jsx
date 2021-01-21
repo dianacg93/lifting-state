@@ -6,12 +6,26 @@ const Container = ({fruits}) => {
 
     const [fruitsDisplay, setFruitsDisplay] = useState(fruits)
     
-    const [filter, setFilter] = useState("")
+    const handleFilterChange = (e) => {
+        e.preventDefault();
+        const filterValue = e.target.value;
+        setFruitsDisplay((_prevState)=>{
+            const filteredList = fruits.filter((fruit)=> {
+                return fruit.toLowerCase().includes(filterValue.toLowerCase());
+            })
+            return filteredList
+        })
+    }
 
+    useEffect(() => {
+        console.log("fruitsDisplay: ", fruitsDisplay)
+
+    }, [fruitsDisplay])
+    
     return (
         <div>
-            <Filter/>
-            <List/>
+            <Filter onChange={(e) => handleFilterChange(e)} />
+            <List fruits={fruitsDisplay} />
         </div>
     )
 }
